@@ -7,10 +7,37 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'biblioteca',
+    loadChildren:() => import('./biblioteca/biblioteca.module').then( m  => m.BibliotecaPageModule)
+  },
+  {
+    path: 'autor',
+    loadChildren:()=> import('./autor/autor.module').then( m => m.AutorPageModule)
+  },
+  {
+    path: 'curriculum',
+    loadChildren:()=> import('./curriculum/curriculum.module').then(m => m.CurriculumPageModule)
+
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'biblioteca',
+    loadChildren: () => import('./biblioteca/biblioteca.module').then( m => m.BibliotecaPageModule)
+  },
+  {
+    path: 'autor',
+    loadChildren: () => import('./autor/autor.module').then( m => m.AutorPageModule)
+  },
+  {
+    path: 'curriculum',
+    loadChildren: () => import('./curriculum/curriculum.module').then( m => m.CurriculumPageModule)
+  },
+
+
 ];
 
 @NgModule({
