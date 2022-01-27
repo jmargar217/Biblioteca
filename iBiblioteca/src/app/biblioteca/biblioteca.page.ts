@@ -20,7 +20,7 @@ export class BibliotecaPage implements OnInit {
   getLibros(){
     this.librosService.getLibros().subscribe(datos =>{
       this.libros = datos.docs;
-      console.log(this.libros)
+      console.log(this.libros);
     });
   }
 

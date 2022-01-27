@@ -1,20 +1,29 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>biblioteca</ion-title>
+        <ion-title>Biblioteca</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-list *ngFor="let libro of this.libros">
-        <ion-thumbnail item-left>
-            <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
-        </ion-thumbnail>
-        <div>
-            <p><b>{{ libro.title }}</b></p>
-            <p>Autor: {{libro.author_name}}</p>
-            <p>Año: {{libro.first_publish_year}}</p>
-        </div>
+    <ion-list>
+        <ion-item *ngFor="let libro of libros">
+            <ion-thumbnail>
+                <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
+            </ion-thumbnail>
+
+            <ion-label style="margin-left: 2%;">
+                <ion-text color="dark">
+                    <h2><b>{{ libro.title }}</b></h2>
+                </ion-text>
+                <ion-text color="medium">
+                    <p>Autor: {{libro.author_name}}</p>
+                </ion-text>
+                <ion-text color="medium">
+                    <p>Año: {{libro.first_publish_year}}</p>
+                </ion-text>
+            </ion-label>
+        </ion-item>
     </ion-list>
 
 </ion-content>
