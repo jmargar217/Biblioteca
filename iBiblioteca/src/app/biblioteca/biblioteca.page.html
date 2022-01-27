@@ -6,4 +6,15 @@
 
 <ion-content>
 
+    <ion-list *ngFor="let libro of this.libros">
+        <ion-thumbnail item-left>
+            <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
+        </ion-thumbnail>
+        <div>
+            <p><b>{{ libro.title }}</b></p>
+            <p>Autor: {{libro.author_name}}</p>
+            <p>Año: {{libro.first_publish_year}}</p>
+        </div>
+    </ion-list>
+
 </ion-content>
