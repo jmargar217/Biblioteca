@@ -1,0 +1,21 @@
+<ion-card div class="card">
+    <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
+    <ion-label style="margin-left: 2%;">
+        <ion-text color="dark">
+            <h2><b>{{ libro.title }}</b></h2>
+        </ion-text>
+        <ion-text color="dark">
+            <p><b>Autor:</b> {{libro.author_name}}</p>
+        </ion-text>
+        <ion-text color="dark">
+            <p><b>Año:</b> {{libro.first_publish_year}}</p>
+        </ion-text>
+        <ion-text color="dark">
+            <p><b>ISBN:</b> {{libro.isbn[2]}}</p>
+        </ion-text>
+        <ion-text color="dark">
+            <p><b>Editorial: </b></p>
+        </ion-text>
+
+    </ion-label>
+</ion-card>

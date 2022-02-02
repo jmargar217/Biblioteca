@@ -5,25 +5,6 @@
 </ion-header>
 
 <ion-content>
-
-    <ion-list>
-        <ion-item *ngFor="let libro of libros">
-            <ion-thumbnail>
-                <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
-            </ion-thumbnail>
-
-            <ion-label style="margin-left: 2%;">
-                <ion-text color="dark">
-                    <h2><b>{{ libro.title }}</b></h2>
-                </ion-text>
-                <ion-text color="medium">
-                    <p>Autor: {{libro.author_name}}</p>
-                </ion-text>
-                <ion-text color="medium">
-                    <p>Año: {{libro.first_publish_year}}</p>
-                </ion-text>
-            </ion-label>
-        </ion-item>
-    </ion-list>
-
+    <app-input-busqueda (onEnter)="getLibros($event)"></app-input-busqueda>
+    <app-tabla [librosTabla]="libros"></app-tabla>
 </ion-content>

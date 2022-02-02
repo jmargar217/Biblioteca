@@ -11,16 +11,17 @@ import { LibrosService } from './libros.service';
 export class BibliotecaPage implements OnInit {
 
   libros:Libro[] = [];
+  termino: string='';
   constructor(private librosService:LibrosService) { }
 
   ngOnInit() {
-    this.getLibros();
+
   }
 
-  getLibros(){
-    this.librosService.getLibros().subscribe(datos =>{
+  getLibros(termino:string){
+    this.termino=termino;
+    this.librosService.getLibros(this.termino).subscribe(datos =>{
       this.libros = datos.docs;
-      console.log(this.libros);
     });
   }
 
