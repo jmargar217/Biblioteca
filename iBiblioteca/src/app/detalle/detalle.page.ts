@@ -10,19 +10,19 @@ import { LibrosService } from '../biblioteca/libros.service';
 })
 export class DetallePage implements OnInit {
   libro!:Libro;
+
+  mostrar:boolean = false;
+
   constructor(private rutaActiva: ActivatedRoute, private libroService:LibrosService) { }
 
   ngOnInit() {
    this.getLibro();
-   console.log(this.libro);
   }
 
   getLibro(){
-    console.log(this.rutaActiva.snapshot.params['isbn']);
     this.libroService.getLibro(this.rutaActiva.snapshot.params["isbn"]).subscribe(resp=>{
       this.libro = resp.docs[0];
-      console.log(this.libro);
-
+      this.mostrar = true;
     });
   }
 

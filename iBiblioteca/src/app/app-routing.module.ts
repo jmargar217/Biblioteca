@@ -20,7 +20,7 @@ const routes: Routes = [
 
   },
   {
-    path: 'detalle/:isbn',
+    path: 'detalle',
     loadChildren: () => import('./detalle/detalle.module').then( m => m.DetallePageModule)
   },
   {
