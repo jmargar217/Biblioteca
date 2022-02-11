@@ -5,6 +5,31 @@
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-button color="dark" (click)="scanBRcode()" expand="block">
+        Scan Barcode
+    </ion-button>
+    </ion-card>
     <app-input-busqueda (onEnter)="getLibros($event)"></app-input-busqueda>
     <app-tabla [librosTabla]="libros"></app-tabla>
 </ion-content>
+
+
+<div style='text-align: center;' *ngIf="mostrar">
+  <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+  <img alt='Barcode Generator TEC-IT'
+       src="https://barcode.tec-it.com/barcode.ashx?data={{scannedBarCode.text}}"/>
+</div>
+
+<ion-card>
+  <div *ngIf="scannedBarCode">
+      <ion-item>
+          Scanned code output: <strong>{{ scannedBarCode["text"] }}</strong>
+      </ion-item>
+      <ion-item>
+          Scanned code output: <strong>{{ scannedBarCode["format"] }}</strong>
+      </ion-item>
+  </div>
+</ion-card>
+
+
