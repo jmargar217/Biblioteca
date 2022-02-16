@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Libro } from '../biblioteca/libro.interface';
 import { LibrosService } from '../biblioteca/libros.service';
+import { Storage } from '@ionic/storage';
+import { StorageService } from './storage.service';
 
 @Component({
   selector: 'app-detalle',
@@ -10,13 +12,16 @@ import { LibrosService } from '../biblioteca/libros.service';
 })
 export class DetallePage implements OnInit {
   libro!:Libro;
-
+  favorito:boolean = false;
   mostrar:boolean = false;
 
-  constructor(private rutaActiva: ActivatedRoute, private libroService:LibrosService) { }
+  constructor(private rutaActiva: ActivatedRoute, private libroService:LibrosService,
+    private almacenService:StorageService,
+    private storage: Storage) { }
 
-  ngOnInit() {
-   this.getLibro();
+  async ngOnInit() {
+    this.getLibro();
+    await this.storage.create();
   }
 
   getLibro(){
@@ -24,6 +29,15 @@ export class DetallePage implements OnInit {
       this.libro = resp.docs[0];
       this.mostrar = true;
     });
+  }
+
+  addFavorito(){
+    if(this.favorito){
+      this.favorito= false;
+    }else{
+      this.favorito=true;
+
+    }
   }
 
 }

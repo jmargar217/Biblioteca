@@ -17,7 +17,11 @@
             <ion-text color="dark">
                 <p><b>Editorial: {{libro.publisher[0]}} </b></p>
             </ion-text>
-
         </ion-label>
+        <button ion-button icon-only clear item-right (click)="addFavorito()">
+          <ion-icon *ngIf="!favorito" name="star" style="zoom:2.0;"></ion-icon>
+          <ion-icon *ngIf="favorito" color="primary" name="star" style="zoom:2.0;"></ion-icon>
+        </button>
+
     </ion-card>
 </div>
