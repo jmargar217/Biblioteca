@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Libro } from '../biblioteca/libro.interface';
 import { LibrosService } from '../biblioteca/libros.service';
 import { Storage } from '@ionic/storage';
-import { StorageService } from './storage.service';
+import { StorageService } from './detalle.service';
 
 @Component({
   selector: 'app-detalle',
@@ -19,10 +19,10 @@ export class DetallePage implements OnInit {
     private almacenService:StorageService,
     private storage: Storage) { }
 
-  async ngOnInit() {
-    this.getLibro();
-    await this.storage.create();
-  }
+    async ngOnInit() {
+      this.getLibro();
+      await this.storage.create();
+    }
 
   getLibro(){
     this.libroService.getLibro(this.rutaActiva.snapshot.params["isbn"]).subscribe(resp=>{
@@ -33,9 +33,19 @@ export class DetallePage implements OnInit {
 
   addFavorito(){
     if(this.favorito){
+
       this.favorito= false;
+      let pos:number = this.almacenService.listaFavoritos.indexOf(this.libro);
+      this.almacenService.listaFavoritos.splice(pos);
+
+      console.log(this.almacenService.listaFavoritos);
+
     }else{
       this.favorito=true;
+      this.almacenService.listaFavoritos.push(this.libro);
+      this.almacenService.set("listaFavoritos",this.libro);
+
+      console.log(this.almacenService.listaFavoritos);
 
     }
   }
