@@ -7,6 +7,7 @@ import { Libro } from '../biblioteca/libro.interface';
 })
 export class StorageService {
 
+  existe:boolean = false;
   listaFavoritos:Libro[] = [];
   private _storage: Storage | null = null;
 
@@ -18,15 +19,16 @@ export class StorageService {
     // If using, define drivers here: await this.storage.defineDriver(/*...*/);
     const storage = await this.storage.create();
     this._storage = storage;
-    this._storage.set("listaFavoritos",this.listaFavoritos);
+
+
   }
 
   public set(key: string, value: any) {
     this._storage?.set(key, value);
   }
 
-  public getStorage(){
-    return this.storage;
+  public getLibrosFavoritos(){
+    return this.listaFavoritos;
   }
 
 }
