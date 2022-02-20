@@ -20,15 +20,36 @@ export class StorageService {
     const storage = await this.storage.create();
     this._storage = storage;
 
-
   }
 
   public set(key: string, value: any) {
     this._storage?.set(key, value);
   }
 
-  public getLibrosFavoritos(){
+  async getLibrosFavoritos(){
     return this.listaFavoritos;
   }
 
+  async cargarFavoritos():Promise<Libro[]>{
+    this.storage.get("listaFavoritos").then(resp=>{
+      this.listaFavoritos=resp;
+    });
+   return this.listaFavoritos;
+  }
+
+
+  async isFavorito(libro:Libro){
+    let found = false;
+    let aux:Libro[] = [];
+    this.storage.get("listaFavoritos").then(resp=>{
+      aux = resp;
+    });
+     for(let i=0;i<aux.length;i++){
+      if(aux[i].isbn[0]==libro.isbn[0]){
+        console.log(aux[i]);
+        found = true;
+      }
+     }
+    return found;
+  }
 }

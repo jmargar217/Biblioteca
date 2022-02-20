@@ -12,6 +12,7 @@ import { StorageService } from './detalle.service';
 })
 export class DetallePage implements OnInit {
   libro!:Libro;
+  listaFavoritos:Libro[]=[];
   favorito:boolean = false;
   mostrar:boolean = false;
 
@@ -20,10 +21,12 @@ export class DetallePage implements OnInit {
     private storage: Storage) { }
 
     async ngOnInit() {
-      await this.almacenService.init();
       this.getLibro();
+      this.almacenService.cargarFavoritos().then(resp=>{
+        console.log(resp);
+        this.listaFavoritos=resp;
+      });
 
-      await this.storage.create();
     }
 
   getLibro(){
@@ -31,15 +34,6 @@ export class DetallePage implements OnInit {
       this.libro = resp.docs[0];
       this.mostrar = true;
     });
-  }
-
-  comprobarLibro(libro:Libro){
-    let lista:Libro[] = this.almacenService.getLibrosFavoritos();
-    if(lista.find(libro => libro.isbn[0] === libro.isbn[0])){
-      this.favorito=true;
-    }else{
-      this.favorito=false;
-    }
   }
 
   addFavorito(){
