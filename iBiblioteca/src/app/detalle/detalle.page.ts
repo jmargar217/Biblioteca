@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Libro } from '../biblioteca/libro.interface';
 import { LibrosService } from '../biblioteca/libros.service';
-import { Storage } from '@ionic/storage';
 import { StorageService } from './detalle.service';
 
 @Component({
@@ -13,42 +12,53 @@ import { StorageService } from './detalle.service';
 export class DetallePage implements OnInit {
   libro!:Libro;
   listaFavoritos:Libro[]=[];
-  favorito:boolean = false;
-  mostrar:boolean = false;
+  isFavorito: boolean = false;
+  ver: boolean = false;
 
   constructor(private rutaActiva: ActivatedRoute, private libroService:LibrosService,
-    private almacenService:StorageService,
-    private storage: Storage) { }
+    private almacenService:StorageService) { }
 
-    async ngOnInit() {
-      this.getLibro();
-      this.almacenService.cargarFavoritos().then(resp=>{
-        console.log(resp);
-        this.listaFavoritos=resp;
-      });
+  ngOnInit() {
+    this.getLibro();
+    this.almacenService.cargarFavoritos();
 
-    }
+  }
 
   getLibro(){
-    this.libroService.getLibro(this.rutaActiva.snapshot.params["isbn"]).subscribe(resp=>{
-      this.libro = resp.docs[0];
-      this.mostrar = true;
+    this.libroService.getLibro(this.rutaActiva.snapshot.params["isbn"]).subscribe({
+      next: data =>{
+        this.libro = data.docs[0];
+        this.ver = true;
+        //Compruebo si el libro es favorito para mostrar en la vista un botón u otro
+        this.comprobarFavorito(this.libro);
+      }
+
     });
   }
 
-  addFavorito(){
-    if(!this.favorito){
+  comprobarFavorito(libro: Libro){
+    // Recorre el storage del servicio en busca del libro
+    this.almacenService.findLibroFavorito(libro.isbn[2]).then(
+      favorito => {
+        if(favorito){
+          this.isFavorito = true;
+        }else{
+          this.isFavorito = false;
+        }
+      }
+    )
 
-      this.almacenService.listaFavoritos.push(this.libro);
-      this.almacenService.set("listaFavoritos",this.almacenService.listaFavoritos);
-      this.favorito= true;
-
-    }else{
-      let pos:number = this.almacenService.listaFavoritos.indexOf(this.libro);
-      this.almacenService.listaFavoritos.splice(pos);
-      this.almacenService.set("listaFavoritos",this.almacenService.listaFavoritos);
-      this.favorito=false;
-    }
   }
 
+  //Recibe el isbn del libro como clave y el libro como valor
+  addFavorito(storageKey: string, value: any){
+    this.almacenService.addFavorito(storageKey, value);
+    this.isFavorito = true;
+  }
+
+  //Borra a través del isbn del libro
+  borrarFavorito(storageKey: string){
+    this.almacenService.borrarFavorito(storageKey);
+    this.isFavorito = false;
+  }
 }

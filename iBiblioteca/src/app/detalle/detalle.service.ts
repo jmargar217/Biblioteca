@@ -7,49 +7,43 @@ import { Libro } from '../biblioteca/libro.interface';
 })
 export class StorageService {
 
-  existe:boolean = false;
   listaFavoritos:Libro[] = [];
-  private _storage: Storage | null = null;
 
   constructor(private storage: Storage) {
     this.init();
   }
 
   async init() {
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-    const storage = await this.storage.create();
-    this._storage = storage;
+    await this.storage.create();
 
   }
 
-  public set(key: string, value: any) {
-    this._storage?.set(key, value);
+  async findLibroFavorito(storageKey: string){
+    return await this.storage.get(storageKey);
+  }
+
+  async addFavorito(storageKey: string, value: any){
+    return await this.storage.set(storageKey, value);
+  }
+
+  async borrarFavorito(storageKey: string){
+    return await this.storage.remove(storageKey);
   }
 
   async getLibrosFavoritos(){
     return this.listaFavoritos;
   }
 
-  async cargarFavoritos():Promise<Libro[]>{
-    this.storage.get("listaFavoritos").then(resp=>{
-      this.listaFavoritos=resp;
-    });
-   return this.listaFavoritos;
+  async deleteAllFavorites(){
+    await this.storage.clear();
   }
 
+  //Añade a la lista de favoritos los libros que se encuentran en el storage
+  async cargarFavoritos(){
 
-  async isFavorito(libro:Libro){
-    let found = false;
-    let aux:Libro[] = [];
-    this.storage.get("listaFavoritos").then(resp=>{
-      aux = resp;
+    this.storage.forEach((key, value) => {
+      this.listaFavoritos.push(key);
     });
-     for(let i=0;i<aux.length;i++){
-      if(aux[i].isbn[0]==libro.isbn[0]){
-        console.log(aux[i]);
-        found = true;
-      }
-     }
-    return found;
   }
+
 }

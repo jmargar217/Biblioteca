@@ -1,27 +1,42 @@
-<div *ngIf="mostrar">
-    <ion-card div class="card">
-        <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg" />
-        <ion-label style="margin-left: 2%;">
-            <ion-text color="dark">
-                <h2><b>{{ libro.title }}</b></h2>
-            </ion-text>
-            <ion-text color="dark">
-                <p><b>Autor:</b> {{libro.author_name}}</p>
-            </ion-text>
-            <ion-text color="dark">
-                <p><b>Año:</b> {{libro.first_publish_year}}</p>
-            </ion-text>
-            <ion-text color="dark">
-                <p><b>ISBN:</b> {{libro.isbn[2]}}</p>
-            </ion-text>
-            <ion-text color="dark">
-                <p><b>Editorial: {{libro.publisher[0]}} </b></p>
-            </ion-text>
-        </ion-label>
-        <button ion-button icon-only clear item-right (click)="addFavorito()">
-          <ion-icon *ngIf="!favorito" name="star" style="zoom:2.0;"></ion-icon>
-          <ion-icon *ngIf="favorito" color="primary" name="star" style="zoom:2.0;"></ion-icon>
-        </button>
+<ion-header>
+    <ion-toolbar>
+        <ion-title *ngIf="ver">
+            <a routerLink="/biblioteca">
+                <ion-icon style="color: white;" name="caret-back-outline"></ion-icon>
+            </a>
+            {{ libro.title }}
 
-    </ion-card>
-</div>
+            <!--Si es favorito muestro un buton para borrar y sino un boton para añadir-->
+            <ion-button *ngIf="!isFavorito" color="dark" (click)="addFavorito(libro.isbn[2], libro)">
+                <ion-icon name="star-outline"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="isFavorito" color="#1E90FF" (click)="borrarFavorito(libro.isbn[2])">
+                <ion-icon name="star"></ion-icon>
+            </ion-button>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+    <div *ngIf="ver">
+        <ion-card>
+            <img src="http://covers.openlibrary.org/b/isbn/{{libro.isbn[2]}}-M.jpg">
+            <ion-card-header>
+                <ion-card-title>{{ libro.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-text color="dark">
+                    <p><b>Autor:</b> {{libro.author_name}}</p>
+                </ion-text>
+                <ion-text color="dark">
+                    <p><b>Año:</b> {{libro.first_publish_year}}</p>
+                </ion-text>
+                <ion-text color="dark">
+                    <p><b>ISBN:</b> {{libro.isbn[2]}}</p>
+                </ion-text>
+                <ion-text color="dark">
+                    <p><b>Editorial: {{libro.publisher[0]}} </b></p>
+                </ion-text>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
